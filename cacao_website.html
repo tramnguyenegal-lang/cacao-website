@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CACAO — A Little Chocolate Moment</title>
+<style>
+:root{
+  --cream:#f6f0e7; --cream2:#eee3d4; --brown:#342017; --brown2:#56372a;
+  --caramel:#a9784f; --white:#fffaf3; --line:rgba(52,32,23,.15);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--cream);color:var(--brown);line-height:1.5}
+h1,h2,h3,.serif{font-family:Georgia,'Times New Roman',serif;font-weight:400}
+a{text-decoration:none;color:inherit}
+button{font:inherit;cursor:pointer}
+.nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:22px 6%;background:rgba(246,240,231,.88);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:.3s}
+.nav.scrolled{border-color:var(--line)}
+.logo{font:26px Georgia,serif;letter-spacing:.22em}
+.navlinks{display:flex;gap:34px;font-size:12px;letter-spacing:.13em;text-transform:uppercase}
+.navlinks a{opacity:.78}.navlinks a:hover{opacity:1}
+.cart{border:1px solid var(--brown);background:transparent;border-radius:30px;padding:9px 16px;font-size:12px}
+.hero{min-height:100vh;padding:145px 6% 70px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.eyebrow{font-size:11px;letter-spacing:.25em;text-transform:uppercase;margin-bottom:20px;opacity:.65}
+.hero h1{font-size:clamp(58px,8vw,112px);line-height:.88;max-width:680px}
+.hero h1 em{font-style:italic}
+.hero p{max-width:430px;margin:28px 0;color:#6e584b}
+.btn{display:inline-block;background:var(--brown);color:var(--white);padding:15px 25px;border-radius:2px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--brown);transition:.25s}
+.btn:hover{background:transparent;color:var(--brown)}
+.hero-art{min-height:600px;position:relative;display:flex;align-items:center;justify-content:center}
+.glow{position:absolute;width:82%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#d4b08d 0 25%,#a9784f 48%,transparent 70%);filter:blur(3px);opacity:.65}
+.cup{position:relative;width:270px;height:190px;background:linear-gradient(145deg,#f8eee0,#d9c5af);border-radius:0 0 80px 80px/0 0 35px 35px;box-shadow:0 35px 55px rgba(52,32,23,.2);margin-top:90px}
+.cup:before{content:"";position:absolute;left:17px;right:17px;top:-18px;height:46px;border-radius:50%;background:radial-gradient(ellipse at center,#6b422d 0 30%,#4b2b20 52%,#d7c1aa 54% 64%,#b79c83 67%);box-shadow:0 5px 8px rgba(0,0,0,.18)}
+.cup:after{content:"CACAO";position:absolute;bottom:46px;left:0;right:0;text-align:center;font:17px Georgia,serif;letter-spacing:.25em}
+.handle{position:absolute;width:72px;height:90px;border:18px solid #dfcdb9;border-left:0;border-radius:0 55px 55px 0;right:-62px;top:35px}
+.bean{position:absolute;width:54px;height:80px;border-radius:50%;background:#4a2b20;box-shadow:0 12px 20px rgba(52,32,23,.22)}
+.bean:after{content:"";position:absolute;left:50%;top:5px;width:2px;height:70px;background:#8c6247;transform:rotate(8deg)}
+.b1{right:10%;top:12%;transform:rotate(25deg)}.b2{left:4%;bottom:14%;transform:rotate(-25deg) scale(.75)}
+.b3{right:7%;bottom:4%;transform:rotate(60deg) scale(.55)}
+.section{padding:105px 6%}
+.section.dark{background:var(--brown);color:var(--cream)}
+.sectionhead{display:flex;justify-content:space-between;align-items:end;margin-bottom:45px}
+.sectionhead h2{font-size:clamp(42px,5vw,70px);line-height:.95}
+.sectionhead p{max-width:360px;color:#806c5f;font-size:14px}.dark .sectionhead p{color:#c7b6a8}
+.products{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.card{background:var(--white);color:var(--brown);padding:14px 14px 20px;position:relative}
+.cardimg{aspect-ratio:1/1.08;border-radius:2px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.latte{background:linear-gradient(135deg,#dac0a6,#a9784f)}
+.latte:after{content:"";width:57%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#8b593d 0 25%,#c99c70 27% 34%,#e6c9a9 36% 48%,#87543a 50% 51%,#d9b58e 53% 70%,#6f402e 72%);box-shadow:0 25px 35px rgba(52,32,23,.25)}
+.truffle{background:linear-gradient(135deg,#ead9c5,#b48b68)}
+.truffle:after{content:"";width:45%;aspect-ratio:1;border-radius:48% 52% 45% 55%;background:radial-gradient(circle at 35% 28%,#7b4c34,#3c2119 65%);box-shadow:18px 28px 25px rgba(52,32,23,.3);transform:rotate(-15deg)}
+.card h3{font-size:22px;margin:17px 0 3px}.card small{color:#806c5f}.price{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:13px}
+.add{border:1px solid var(--brown);background:transparent;border-radius:50%;width:32px;height:32px}.add:hover{background:var(--brown);color:white}
+.story{display:grid;grid-template-columns:1fr 1fr;gap:9%;align-items:center}
+.storyvisual{min-height:550px;background:linear-gradient(145deg,#b78d69,#5b3829);position:relative;overflow:hidden}
+.storyvisual:before{content:"";position:absolute;width:65%;height:65%;border-radius:50%;background:#3c241b;left:18%;top:18%;box-shadow:0 0 0 25px rgba(238,227,212,.08),0 0 0 70px rgba(238,227,212,.05)}
+.storyvisual span{position:absolute;bottom:25px;left:25px;color:#ead9c5;font:italic 20px Georgia,serif}
+.storytext h2{font-size:clamp(45px,5vw,72px);line-height:.95;margin-bottom:25px}.storytext p{color:#705a4c;margin:18px 0;max-width:500px}
+.journal{background:var(--cream2)}
+.jgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:18px}.article{min-height:330px;padding:28px;background:var(--brown);color:var(--cream);display:flex;flex-direction:column;justify-content:end}.article:nth-child(2){background:#a9784f}.article:nth-child(3){background:#76513e}.article .tag{font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:auto;opacity:.75}.article h3{font-size:30px;line-height:1.05}
+.newsletter{text-align:center;padding:110px 20px}.newsletter h2{font-size:58px}.newsletter p{margin:15px auto 30px;color:#705a4c;max-width:500px}.form{display:flex;max-width:480px;margin:auto}.form input{flex:1;padding:15px;border:1px solid var(--line);background:transparent;outline:0}.form button{padding:15px 20px;border:1px solid var(--brown);background:var(--brown);color:white}
+footer{padding:35px 6%;display:flex;justify-content:space-between;border-top:1px solid var(--line);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.modal{position:fixed;inset:0;background:rgba(30,18,12,.6);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}.modal.open{display:flex}
+.modalbox{background:var(--cream);width:min(520px,100%);padding:30px;max-height:80vh;overflow:auto}.modalhead{display:flex;justify-content:space-between;margin-bottom:25px}.close{border:0;background:none;font-size:25px}.cartitem{display:flex;justify-content:space-between;padding:15px 0;border-bottom:1px solid var(--line);font-size:14px}.total{display:flex;justify-content:space-between;margin:25px 0;font-weight:bold}
+@media(max-width:850px){.navlinks{display:none}.hero{grid-template-columns:1fr;padding-top:130px}.hero-art{min-height:430px}.products{grid-template-columns:1fr 1fr}.story{grid-template-columns:1fr}.storyvisual{min-height:400px}.jgrid{grid-template-columns:1fr}.sectionhead{display:block}.sectionhead p{margin-top:20px}}
+@media(max-width:520px){.products{grid-template-columns:1fr}.hero h1{font-size:62px}.cup{transform:scale(.8)}footer{display:block}footer span{display:block;margin:8px 0}}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav">
+  <a href="#" class="logo">CACAO</a>
+  <div class="navlinks"><a href="#shop">Shop</a><a href="#story">Our Story</a><a href="#journal">Journal</a></div>
+  <button class="cart" onclick="openCart()">Bag <span id="count">0</span></button>
+</nav>
+
+<header class="hero">
+  <div>
+    <div class="eyebrow">Cacao · Chocolate · Slow moments</div>
+    <h1>Slow down.<br><em>Sip</em> something special.</h1>
+    <p>Rich cacao latte and handmade chocolate truffles, created for the little moments that deserve to feel special.</p>
+    <a class="btn" href="#shop">Discover the menu</a>
+  </div>
+  <div class="hero-art">
+    <div class="glow"></div><div class="bean b1"></div><div class="bean b2"></div><div class="bean b3"></div>
+    <div class="cup"><div class="handle"></div></div>
+  </div>
+</header>
+
+<section class="section" id="shop">
+  <div class="sectionhead"><div><div class="eyebrow">The menu</div><h2>Our little<br>obsessions.</h2></div><p>Two simple things, made with care. Choose a cacao latte for your everyday ritual, or a truffle when you need a little sweetness.</p></div>
+  <div class="products">
+    <article class="card"><div class="cardimg latte"></div><h3>Classic Cacao</h3><small>Deep · Smooth · Comforting</small><div class="price"><span>$4.50</span><button class="add" onclick="add('Classic Cacao',4.5)">+</button></div></article>
+    <article class="card"><div class="cardimg latte" style="filter:saturate(.7)"></div><h3>Vanilla Cacao</h3><small>Silky · Sweet · Fragrant</small><div class="price"><span>$5.00</span><button class="add" onclick="add('Vanilla Cacao',5)">+</button></div></article>
+    <article class="card"><div class="cardimg truffle"></div><h3>Dark Truffle</h3><small>Rich · Intense · Velvety</small><div class="price"><span>$8.00 / 4</span><button class="add" onclick="add('Dark Truffle Box',8)">+</button></div></article>
+    <article class="card"><div class="cardimg truffle" style="filter:hue-rotate(18deg)"></div><h3>Sea Salt Box</h3><small>Chocolate · Caramel · Sea salt</small><div class="price"><span>$9.00 / 4</span><button class="add" onclick="add('Sea Salt Truffle Box',9)">+</button></div></article>
+  </div>
+</section>
+
+<section class="section dark">
+  <div class="sectionhead"><div><div class="eyebrow">Create your own</div><h2>A box made<br>for you.</h2></div><p>Mix your favourites, choose your size, and add a little note. The easiest gift is the one that feels personal.</p></div>
+  <div style="display:flex;flex-wrap:wrap;gap:12px">
+    <button class="btn" style="background:var(--cream);color:var(--brown)" onclick="add('Custom Truffle Box — 4 pcs',10)">Build a 4-piece box · $10</button>
+    <button class="btn" style="background:transparent;color:var(--cream);border-color:var(--cream)" onclick="add('Custom Truffle Box — 9 pcs',19)">Build a 9-piece box · $19</button>
+  </div>
+</section>
+
+<section class="section" id="story">
+  <div class="story">
+    <div class="storyvisual"><span>From cacao bean to your cup.</span></div>
+    <div class="storytext"><div class="eyebrow">Our story</div><h2>Good chocolate doesn't need to be complicated.</h2><p>We believe a great cacao moment starts with good ingredients and ends with a little pause in your day.</p><p>Our menu stays intentionally small. We focus on getting a few things right: deep cacao flavour, silky texture and chocolate worth slowing down for.</p><a class="btn" href="#journal">Read our journal</a></div>
+  </div>
+</section>
+
+<section class="section journal" id="journal">
+  <div class="sectionhead"><div><div class="eyebrow">The cacao journal</div><h2>A little more<br>about chocolate.</h2></div><p>Stories, rituals and small discoveries from the world of cacao.</p></div>
+  <div class="jgrid">
+    <article class="article"><div class="tag">01 · Cacao</div><h3>Why does good chocolate taste a little bitter?</h3></article>
+    <article class="article"><div class="tag">02 · Ritual</div><h3>How to make your cacao moment slower.</h3></article>
+    <article class="article"><div class="tag">03 · Pairing</div><h3>Truffles and coffee: a tiny perfect pairing.</h3></article>
+  </div>
+</section>
+
+<section class="newsletter">
+  <div class="eyebrow">Stay a little longer</div><h2>Chocolate mail.</h2><p>New flavours, tiny stories and occasional sweet surprises. No spam, just cacao.</p>
+  <form class="form" onsubmit="event.preventDefault(); alert('Welcome to the cacao club ♡'); this.reset()"><input type="email" placeholder="Your email address" required><button>Join</button></form>
+</section>
+
+<footer><span>© 2026 CACAO</span><span>Made slowly · Enjoyed completely</span></footer>
+
+<div class="modal" id="modal"><div class="modalbox"><div class="modalhead"><h2 class="serif">Your bag</h2><button class="close" onclick="closeCart()">×</button></div><div id="items"></div><div class="total"><span>Total</span><span id="total">$0.00</span></div><button class="btn" style="width:100%" onclick="alert('Demo checkout — connect this button to your payment system.')">Checkout</button></div></div>
+
+<script>
+let cart=[];
+function add(name,price){cart.push({name,price});update();openCart()}
+function update(){document.getElementById('count').textContent=cart.length;let box=document.getElementById('items');let total=cart.reduce((s,x)=>s+x.price,0);box.innerHTML=cart.length?cart.map((x,i)=>`<div class="cartitem"><span>${x.name}</span><span>$${x.price.toFixed(2)} <button onclick="removeItem(${i})" style="border:0;background:none">×</button></span></div>`).join(''):'<p style="color:#806c5f">Your bag is waiting for something sweet.</p>';document.getElementById('total').textContent='$'+total.toFixed(2)}
+function removeItem(i){cart.splice(i,1);update()}
+function openCart(){document.getElementById('modal').classList.add('open');update()}
+function closeCart(){document.getElementById('modal').classList.remove('open')}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeCart()})
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>10))
+</script>
+</body>
+</html>
